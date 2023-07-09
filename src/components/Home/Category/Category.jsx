@@ -1,23 +1,38 @@
+import { useNavigate } from "react-router-dom";
+
 import "./Category.scss";
 
-import cart1 from "../../../assets/category/cat-1.jpg";
+const Category = ({ categories }) => {
+  const navigate = useNavigate();
 
-const Category = () => {
   return (
     <div className="shop-by-category">
       <div className="categories">
-        <div className="category">
-          <img src={cart1} alt={cart1} />
-        </div>
-        <div className="category">
-          <img src={cart1} alt={cart1} />
-        </div>
-        <div className="category">
-          <img src={cart1} alt={cart1} />
-        </div>
-        <div className="category">
-          <img src={cart1} alt={cart1} />
-        </div>
+        {categories?.data?.map((category) => {
+          console.log(category);
+          return (
+            <div
+              className="category"
+              key={category.id}
+              onClick={() =>
+                navigate(
+                  `/category/${
+                    category.id +
+                    category.attributes.titlex.toLowerCase().replace(/ /g, "_")
+                  }`
+                )
+              }
+            >
+              <img
+                src={
+                  process.env.REACT_APP_DEV_URL +
+                  category.attributes.img.data.attributes.url
+                }
+                alt={category.attributes.titlex}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
